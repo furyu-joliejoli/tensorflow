@@ -1544,6 +1544,12 @@ IMAGE_DEPS = [
 ]
 
 tf_kernel_library(
+    name = "extract_patches",
+    prefix = "extract_patches",
+    deps = IMAGE_DEPS,
+)
+
+tf_kernel_library(
     name = "adjust_contrast_op",
     prefix = "adjust_contrast_op",
     deps = IMAGE_DEPS,

@@ -1518,6 +1518,7 @@ cc_library(
         ":draw_bounding_box_op",
         ":encode_jpeg_op",
         ":encode_png_op",
+        ":extract_patches",
         ":non_max_suppression_op",
         ":random_crop_op",
         ":resize_area_op",

@@ -746,6 +746,12 @@ use_image_if_no_bounding_boxes: Controls behavior if no bounding boxes supplied.
   raise an error.
 )doc");
 
+ REGISTER_OP("ExtractPatches")
+     .Input("input: float")
+     .Input("size: int32")
+     .Input("offsets: float")
+     .Output("glimpse: float");
+ 
 // --------------------------------------------------------------------------
 
 // glimpse = extract_glimpse(input, size, offsets) extract the glimpse

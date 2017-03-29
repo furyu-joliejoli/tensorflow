@@ -745,12 +745,6 @@ use_image_if_no_bounding_boxes: Controls behavior if no bounding boxes supplied.
   If true, assume an implicit bounding box covering the whole input. If false,
   raise an error.
 )doc");
-
- REGISTER_OP("ExtractPatches")
-     .Input("input: float")
-     .Input("size: int32")
-     .Input("offsets: float")
-     .Output("glimpse: float");
  
 // --------------------------------------------------------------------------
 

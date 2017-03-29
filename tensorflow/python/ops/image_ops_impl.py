@@ -52,7 +52,7 @@ ops.NotDifferentiable('SampleDistortedBoundingBox')
 # latent bugs here.
 ops.NotDifferentiable('ExtractGlimpse')
 ops.NotDifferentiable('NonMaxSuppression')
-
+ops.NotDifferentiable("ExtractPatches")
 
 def _assert(cond, ex_type, msg):
   """A polymorphic assert, works with tensors and boolean expressions.

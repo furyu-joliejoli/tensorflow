@@ -11,12 +11,6 @@
 #include "tensorflow/core/platform/logging.h"
 #include "tensorflow/core/platform/types.h"
 
- REGISTER_OP("ExtractPatches")
-     .Input("input: float")
-     .Input("size: int32")
-     .Input("offsets: float")
-     .Output("glimpse: float");
-
 namespace tensorflow {
 
 class ExtractPatchesOp : public OpKernel {

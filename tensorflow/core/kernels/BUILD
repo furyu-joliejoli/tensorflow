@@ -1518,6 +1518,7 @@ cc_library(
         ":draw_bounding_box_op",
         ":encode_jpeg_op",
         ":encode_png_op",
+        ":extract_patches",
         ":non_max_suppression_op",
         ":random_crop_op",
         ":resize_area_op",
@@ -1541,6 +1542,12 @@ IMAGE_DEPS = [
     "//tensorflow/core:lib_internal",
     "//tensorflow/core:protos_all_cc",
 ]
+
+tf_kernel_library(
+    name = "extract_patches",
+    prefix = "extract_patches",
+    deps = IMAGE_DEPS,
+)
 
 tf_kernel_library(
     name = "adjust_contrast_op",

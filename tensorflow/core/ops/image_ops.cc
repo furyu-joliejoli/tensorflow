@@ -745,6 +745,54 @@ use_image_if_no_bounding_boxes: Controls behavior if no bounding boxes supplied.
   If true, assume an implicit bounding box covering the whole input. If false,
   raise an error.
 )doc");
+ 
+REGISTER_OP("ExtractPatches")
+    .Input("input: float")
+    .Input("size: int32")
+    .Input("offsets: float")
+    .Output("glimpse: float")
+    .SetShapeFn([](InferenceContext* c) {
+      ShapeHandle input_shape, window_shape, offsets_shape;
+
+      TF_RETURN_IF_ERROR(c->WithRank(c->input(0), 4, &input_shape));
+      TF_RETURN_IF_ERROR(c->WithRank(c->input(1), 1, &window_shape));
+      TF_RETURN_IF_ERROR(c->WithRank(c->input(2), 3, &offsets_shape));
+      
+      DimensionHandle unused; 
+      TF_RETURN_IF_ERROR(c->WithValue(c->Dim(window_shape, 0), 2, &unused));
+
+      // input shape
+      DimensionHandle batch_size = c->Dim(input_shape, 0);
+      DimensionHandle depth = c->Dim(input_shape, 3);
+
+      // window shape
+      DimensionHandle patch_height, patch_width;
+
+      const Tensor* window = c->input_tensor(1);
+      // pythonからライブラリを実行した場合、なぜか一度ヌルポで走ってしまう
+      if (window == nullptr) {
+        patch_height = c->UnknownDim();
+        patch_width = c->UnknownDim();
+      } else {
+        // 'typename TTypes<int>::ConstVec' (aka 'TensorMap<Eigen::Tensor<const int, 1, Eigen::RowMajor, long>, Eigen::Aligned>')
+        TTypes<int32>::ConstVec vec = window->vec<int32>();
+        int32 patch_height_int = vec(0);
+        int32 patch_width_int = vec(1);
+        patch_height = c->MakeDim(patch_height_int);
+        patch_width = c->MakeDim(patch_width_int);
+      }
+
+      DimensionHandle num_patches = c->Dim(offsets_shape, 1);
+
+      std::vector<DimensionHandle> dims = {batch_size, num_patches, patch_height, patch_width, depth};
+      ShapeHandle output_shape = c->MakeShape(dims);
+      c->set_output(0, output_shape);
+
+      return Status::OK();
+    })
+    .Doc(R"doc(
+ExtractsPatches
+    )doc");
 
 // --------------------------------------------------------------------------
 

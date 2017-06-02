@@ -11791,6 +11791,33 @@ op {
     }
   }
 }
+
+op {
+  name: "ExtractPatches"
+  input_arg {
+    name: "input"
+    type: DT_FLOAT
+  }
+  input_arg {
+    name: "input"
+    type: DT_FLOAT
+  }
+  input_arg {
+    name: "size"
+    description: "= A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The\nnew size for the images."
+    type: DT_INT32
+  }
+  input_arg {
+    name: "offsets"
+    type: DT_FLOAT
+  }
+  output_arg {
+    name: "glimpse"
+    description: "A tensor representing the glimpses `[batch_size,\nglimpse_height, glimpse_width, channels]`."
+    type: DT_FLOAT
+  }
+}
+
 op {
   name: "ExtractImagePatches"
   input_arg {
